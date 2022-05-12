@@ -6,11 +6,15 @@
 
 
 
-///3) prendo il primo elemento come inputUrl(obbligatorio) e il secondo come outputUrl(non obbligatorio)
+///3) prendo il primo elemento come inputUrl(obbligatorio),il secondo come outputUrl(obbligatorio) e il terzo come parola da cercare(non obligatoria)
 
 
 
-///4) leggo il contenuto del file e loggo il numero di caratteri spazi compresi e il numero di caratteri spazi esclusi
+///4) leggo il contenuto del file e loggo:
+//////- il numero di caratteri spazi compresi
+//////- il numero di caratteri spazi esclusi
+//////- il numero delle parole
+//////- il numero delle occorrenze della parola da cercare(se la ho)
 
 
 
