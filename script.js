@@ -17,25 +17,6 @@ if (myArgs[1] === undefined){
   outputUrl = myArgs[1];
 }
 
-
-
-
-
-// function readCsv() {
-//   try {
-//     const data = fs.readFileSync('./libro.csv', 'utf8');
-//     console.log(data);
-//   } catch (err) {
-//     throw err;
-//   }
-// }
-
-
-// try {
-//   readCsv()
-// } catch (error) {
-//   console.log('la funzione non funziona')
-// }
 let data;
 
 try {
@@ -45,16 +26,6 @@ try {
   process.exit();
 }
 
-// let pippo = {nome: "pippo", dob: 2021};
-
-// console.log(pippo['nome']);
-
-// pippo['cognome'] = 'de pippis';
-
-// console.log(pippo.cognome);
-
-
-////
 //1) spezzare la nostra stringa in un array di linee.
 //let lines = ["title,author,price,copies", "iliade,omero,15.00,5", "odissea,omero,12.00,3", "i promessi sposi,manzoni,20.00,10"];
 
@@ -86,9 +57,12 @@ for (const line of lines) {
     let property = properties[i];
     let value = lineArray[i];
 
+    //tolgo spazi vuoti
     property = property.trim()
     value = value.trim()
 
+
+    //controllo se stringa, numero, boleano
     value = checkType(value)
     //console.log('property', property) 
     /////- aggiungo al nuovo oggetto una proprietà con il nome della proprietà e associando il valore corrispondete nella linea;
@@ -116,7 +90,7 @@ try {
 }
 
 
-
+//controllo se è un numero
 function checkType(value){
 
   const valueNonEUnNumero = isNaN(value);
