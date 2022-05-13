@@ -78,7 +78,7 @@ if (searchWord) {
            occourence++;
        } 
     }  
-    console.log('la parola ' + searchWord + ' appare ' + occourence + (occourence === 1 ? ' volta' : ' volte'));
+    console.log('la parola "' + searchWord + '" appare ' + occourence + (occourence === 1 ? ' volta' : ' volte'));
     occourenceString = 'la parola ' + searchWord + ' appare ' + occourence + (occourence === 1 ? ' volta' : ' volte');
 }
 

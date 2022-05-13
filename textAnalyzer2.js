@@ -1,92 +1,41 @@
-function getConsoleArguments() {
-    return process.argv.slice(2);
-}
 
-function getArgumentOrExitWithErrorAndIndex(errorString, index) {
-    const arguments = getConsoleArguments()
-   let arg;
-   if (argumets[index]) {
-       arg = arguments[index]
-   } else {
-       console.error(errorString);
-       process.exit();
-   }
-     return arg;
-}
+const textUtilities = require('./textUtilities.js');
 
-function getOptionArgumetWithIndex(index) {
-    const arguments = getConsoleArguments();
-    return arguments[index];
-}
+const inputOutputUtilities = require('./inputOutputUtilities.js');
 
-function readFileDataWithUrl(inputUrl) {
-    let fileData;
-    try {
-        fileData = fileSystem.readFileSync(inputUrl, 'utf8'); 
-     } catch (error) {
-         console.log('errore nella lettura del file\n', error.message);
-         process.exit();
-     }
-       return fileData;
-}
+const cosnoleUtilities = require('./consoleUtilities.js')
 
-const fileSystem = require('fs');
+const inputUrl = cosnoleUtilities.getArgumentOrExitWithErrorAndIndex("devi inserire l'input url", 0);
 
-const inputUrl = getArgumentOrExitWithErrorAndIndex("devi inserire l'input url", 0);
+const outputUrl = cosnoleUtilities.getArgumentOrExitWithErrorAndIndex("devi inserire l'output url", 1);
 
-const outputUrl = getArgumentOrExitWithErrorAndIndex("devi inserire l'output url", 1);
+let searchWord = cosnoleUtilities.getOptionArgumetWithIndex(2);
 
-let searchWord = getOptionArgumetWithIndex(2);
+let fileData = inputOutputUtilities.readFileDataWithUrl(inputUrl);
 
-let fileData = readFileDataWithUrl(inputUrl);
-
-
-
-const charNumber = fileData.length;
+const charNumber = textUtilities.getCharNumber(fileData);
 console.log('numero di caratteri: ', charNumber);
 
-
-const noSpacesData = fileData.replaceAll(' ', '');
-const noSpacesCharNumber = noSpacesData.length;
+const noSpacesCharNumber = textUtilities.getCharNumberWithOutSpaces(fileData);
 console.log('numero di caratteri spazi esclusi: ', noSpacesCharNumber);
 
-
-const cleanData = fileData.replaceAll("'", ' ')
-                          .replaceAll('.', '')
-                          .replaceAll(',', '')
-                          .replaceAll('!', '');
-
-const wordArray = cleanData.split(' ');
-const wordNumber = wordArray.length;
-
+const wordNumber = textUtilities.getWordNumberFromString(fileData);
 console.log('numero di parole: ', wordNumber);
 
-                          
-let occourenceString = '';
-
+let occurrence = -1;
 if (searchWord) {
-    let occourence = 0;
-    for (const word of wordArray) {
-       if (word.toLowerCase() === searchWord.toLowerCase()) {
-           occourence++;
-       } 
-    }  
-    console.log('la parola ' + searchWord + ' appare ' + occourence + (occourence === 1 ? ' volta' : ' volte'));
-    occourenceString = 'la parola ' + searchWord + ' appare ' + occourence + (occourence === 1 ? ' volta' : ' volte');
+    occurrence = textUtilities.getOccourenceOfWordInString(searchWord ,fileData);
 }
 
+if (occurrence >= 0){
+    console.log('la parola "' + searchWord + '" appare ' + occurrence + (occurrence === 1 ? ' volta' : ' volte'));
+}
 
-const newFileData = fileData + 
-                    '\n' + 
-                    '\n' + 
-                    'numero di caratteri: ' + charNumber + '\n' + 
-                    'numero di caratteri spazi esclusi: ' + noSpacesCharNumber + '\n' + 
-                    'numero di parole: ' + wordNumber + '\n' + 
-                    occourenceString;
+const report = textUtilities.createReportString(fileData, searchWord, charNumber, noSpacesCharNumber, wordNumber, occurrence);
 
-try {
-    fileSystem.writeFileSync(outputUrl, newFileData);
-} catch (error) {
-    console.log('errore nella lettura del file\n', error.message);
-    process.exit(); 
-}                    
+inputOutputUtilities.writeReportInFile(outputUrl ,report);
+
+//creare occurrence per ogni parola del testo, ordinarli per il numero di ripetizioni e la percentuale rispetto al testo
+
+
+
