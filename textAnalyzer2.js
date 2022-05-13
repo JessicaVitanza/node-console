@@ -1,62 +1,56 @@
-///1) importo fs
-const { log } = require('console');
+function getConsoleArguments() {
+    return process.argv.slice(2);
+}
+
+function getArgumentOrExitWithErrorAndIndex(errorString, index) {
+    const arguments = getConsoleArguments()
+   let arg;
+   if (argumets[index]) {
+       arg = arguments[index]
+   } else {
+       console.error(errorString);
+       process.exit();
+   }
+     return arg;
+}
+
+function getOptionArgumetWithIndex(index) {
+    const arguments = getConsoleArguments();
+    return arguments[index];
+}
+
+function readFileDataWithUrl(inputUrl) {
+    let fileData;
+    try {
+        fileData = fileSystem.readFileSync(inputUrl, 'utf8'); 
+     } catch (error) {
+         console.log('errore nella lettura del file\n', error.message);
+         process.exit();
+     }
+       return fileData;
+}
+
 const fileSystem = require('fs');
 
+const inputUrl = getArgumentOrExitWithErrorAndIndex("devi inserire l'input url", 0);
 
-///2) leggo gli argomenti inseriti da console
-const args = process.argv.slice(2);
-// console.log(args);
+const outputUrl = getArgumentOrExitWithErrorAndIndex("devi inserire l'output url", 1);
 
+let searchWord = getOptionArgumetWithIndex(2);
 
-///3) prendo il primo elemento come inputUrl(obbligatorio),il secondo come outputUrl(obbligatorio) e il terzo come parola da cercare(non obligatoria)
-let inputUrl;
-if (args[0]) {
-    inputUrl = args[0];
-} else {
-    console.log("devi inserire l'input url");
-    process.exit();
-}
+let fileData = readFileDataWithUrl(inputUrl);
 
 
-let outputUrl;
-if (args[1]) {
-    outputUrl = args[1];
-} else {
-    console.log("devi inserire l'output url");
-    process.exit();
-}
 
-let searchWord = args[2];
-
-console.log('input', inputUrl);
-console.log('output', outputUrl);
-console.log('search', searchWord);
-
-
-///4) leggo il contenuto del file e loggo:
-let fileData
-try {
-   fileData = fileSystem.readFileSync(inputUrl, 'utf8'); 
-} catch (error) {
-    console.log('errore nella lettura del file\n', error.message);
-    process.exit();
-}
-
-console.log('testo da analizzare', fileData);
-
-
-//////- il numero di caratteri spazi compresi
 const charNumber = fileData.length;
 console.log('numero di caratteri: ', charNumber);
 
 
-//////- il numero di caratteri spazi esclusi
 const noSpacesData = fileData.replaceAll(' ', '');
 const noSpacesCharNumber = noSpacesData.length;
 console.log('numero di caratteri spazi esclusi: ', noSpacesCharNumber);
 
 
-//////- il numero delle parole
 const cleanData = fileData.replaceAll("'", ' ')
                           .replaceAll('.', '')
                           .replaceAll(',', '')
@@ -68,7 +62,6 @@ const wordNumber = wordArray.length;
 console.log('numero di parole: ', wordNumber);
 
                           
-//////- il numero delle occorrenze della parola da cercare(se la ho)
 let occourenceString = '';
 
 if (searchWord) {
@@ -83,7 +76,6 @@ if (searchWord) {
 }
 
 
-///5) scrivo un nuovo file con il testo dell'originale più i dati dell'analisi
 const newFileData = fileData + 
                     '\n' + 
                     '\n' + 
@@ -98,11 +90,3 @@ try {
     console.log('errore nella lettura del file\n', error.message);
     process.exit(); 
 }                    
-
-
-//es originale=> viva il css!
-// risultato=>
-// viva il css!
-//
-// numero di caratteri: 12
-// numero di caratteri(spazi esclusi): 10
