@@ -69,15 +69,7 @@ function createFrequencyData(string){
   const freqObj = wordsFrequency(string);
   const freqArray = fromFrequencyObjToArray(freqObj);
   freqArray.sort(compareFrequency);
-
-  let frequencyData = 'Frequenza parole\n';
-
-  for (const freq of freqArray) {
-    frequencyData = frequencyData + freq.word + ': ' + freq.frequency + '\n';
-  }
-
-  return frequencyData;
-
+  
   //return JSON.stringify(freqArray, null, 2);
 }
 
