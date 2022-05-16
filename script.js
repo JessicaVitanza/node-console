@@ -28,8 +28,9 @@ try {
 
 //1) spezzare la nostra stringa in un array di linee.
 //let lines = ["title,author,price,copies", "iliade,omero,15.00,5", "odissea,omero,12.00,3", "i promessi sposi,manzoni,20.00,10"];
-
+console.log('dataaaaa',data)
 let lines = data.split(/\r?\n/);
+console.log('lineeee', lines);
 ///rimuovo le linee vuote
 lines = lines.filter(line => line !== '');
 //console.log('lines', lines);
@@ -38,7 +39,7 @@ lines = lines.filter(line => line !== '');
 //const properties = ["title", "author", "price", "copies"]
 
 const properties = lines.shift().split(',');
-//console.log('lines + properies', lines, properties)
+console.log('properies', properties)
 
 //let lines = ["iliade,omero,15.00,5", "odissea,omero,12.00,3", "i promessi sposi,manzoni,20.00,10"];
 //3) creo un array vuoto per gli oggetti
@@ -93,10 +94,15 @@ try {
 //controllo se è un numero
 function checkType(value){
 
+  // const numberValue = parseFloat(value)
+  // if (numberValue !== NaN) {
+  //   return numberValue;
+  // }
+
   const valueNonEUnNumero = isNaN(value);
   const valueEUnNumero = !valueNonEUnNumero;
 
-  if (valueEUnNumero) {
+  if (!isNaN(value)) {
     return parseFloat(value);
   } else if(value === 'true' || value === 'false'){
     return value === 'true' ? true : false;
